@@ -164,6 +164,8 @@ namespace ExcelToJson
                             ICell cell = dataRow.GetCell(col);
                             if (dataType == "int")
                                 data[keyRow.GetCell(col).StringCellValue] = Convert.ToInt32(cell.NumericCellValue);
+                            else if (dataType == "float")
+                                data[keyRow.GetCell(col).StringCellValue] = cell.NumericCellValue;
                             else if (dataType == "str")
                                 data[keyRow.GetCell(col).StringCellValue] = cell.StringCellValue;
                         }
