@@ -108,7 +108,6 @@ namespace ExcelToJson
             catch (Exception)
             {
                 MessageBox.Show("發生問題!!", "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
             }
         }
 
@@ -158,10 +157,14 @@ namespace ExcelToJson
                     {
                         Dictionary<string, object> data = new Dictionary<string, object>();
                         IRow dataRow = subSheet.GetRow(row);
+                        if (dataRow == null)
+                            continue;
                         for (int col = 0; col < keyRow.LastCellNum; col++)
                         {
                             string dataType = dataTypeRow.GetCell(col).StringCellValue;
                             ICell cell = dataRow.GetCell(col);
+                            if (cell == null)
+                                continue;
                             if (dataType == "int")
                                 data[keyRow.GetCell(col).StringCellValue] = Convert.ToInt32(cell.NumericCellValue);
                             else if (dataType == "float")
