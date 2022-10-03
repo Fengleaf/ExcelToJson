@@ -105,9 +105,9 @@ namespace ExcelToJson
                 ExportFile(filesNames[index]);
                 MessageBox.Show("讀取完成!!", "成功", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("發生問題!!", "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("發生問題!!\n" + ex.Message, "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -122,7 +122,7 @@ namespace ExcelToJson
             }
             catch (Exception ex)
             {
-                MessageBox.Show("發生問題!!", "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("發生問題!!\n" + ex.Message, "失敗", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
