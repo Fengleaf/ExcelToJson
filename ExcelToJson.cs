@@ -171,6 +171,8 @@ namespace ExcelToJson
                                 data[keyRow.GetCell(col).StringCellValue] = cell.NumericCellValue;
                             else if (dataType == "str")
                                 data[keyRow.GetCell(col).StringCellValue] = cell.StringCellValue;
+                            else if (dataType == "bool")
+                                data[keyRow.GetCell(col).StringCellValue] = cell.BooleanCellValue;
                         }
                         totalData.Add(data);
                     }
