@@ -161,6 +161,12 @@ namespace ExcelToJson
                             continue;
                         for (int col = 0; col < keyRow.LastCellNum; col++)
                         {
+                            // 若為空，跳過
+                            if (keyRow.GetCell(col) == null)
+                                continue;
+                            // 備註欄位跳過
+                            if (keyRow.GetCell(col).StringCellValue == "Comment")
+                                continue;
                             string dataType = dataTypeRow.GetCell(col).StringCellValue;
                             ICell cell = dataRow.GetCell(col);
                             if (cell == null)
