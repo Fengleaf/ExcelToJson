@@ -182,7 +182,12 @@ namespace ExcelToJson
                             else if (dataType == "intarr")
                             {
                                 string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell.CellType == CellType.Blank)
+                                {
+                                    List<int> values = new List<int>();
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else if (string.IsNullOrEmpty(s))
                                 {
                                     List<int> values = new List<int>() { Convert.ToInt32(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
@@ -197,7 +202,12 @@ namespace ExcelToJson
                             else if (dataType == "floatarr")
                             {
                                 string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell.CellType == CellType.Blank)
+                                {
+                                    List<float> values = new List<float>();
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else if(string.IsNullOrEmpty(s))
                                 {
                                     List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
