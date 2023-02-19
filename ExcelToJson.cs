@@ -182,58 +182,102 @@ namespace ExcelToJson
                             else if (dataType == "intarr")
                             {
                                 string s = cell.StringCellValue;
-                                string[] ss = s.Split(",");
-                                List<int> values = ss.Select(x => Convert.ToInt32(x)).ToList();
-                                data[keyRow.GetCell(col).StringCellValue] = values;
+                                if (string.IsNullOrEmpty(s))
+                                {
+                                    List<int> values = new List<int>() { Convert.ToInt32(cell.NumericCellValue) };
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else
+                                {
+                                    string[] ss = s.Split(",");
+                                    List<int> values = ss.Select(x => Convert.ToInt32(x)).ToList();
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
                             }
                             else if (dataType == "floatarr")
                             {
                                 string s = cell.StringCellValue;
-                                string[] ss = s.Split(",");
-                                List<float> values = ss.Select(x => Convert.ToSingle(x)).ToList();
-                                data[keyRow.GetCell(col).StringCellValue] = values;
+                                if (string.IsNullOrEmpty(s))
+                                {
+                                    List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else
+                                {
+                                    string[] ss = s.Split(",");
+                                    List<float> values = ss.Select(x => Convert.ToSingle(x)).ToList();
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
                             }
                             else if (dataType == "vec")
                             {
                                 string s = cell.StringCellValue;
-                                s = s.Substring(1, s.Length - 2);
-                                string[] ss = s.Split(",");
-                                (float, float) vec = (Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]));
-                                data[keyRow.GetCell(col).StringCellValue] = vec;
+                                if (string.IsNullOrEmpty(s))
+                                {
+                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                }
+                                else
+                                {
+                                    s = s.Substring(1, s.Length - 2);
+                                    string[] ss = s.Split(",");
+                                    (float, float) vec = (Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]));
+                                    data[keyRow.GetCell(col).StringCellValue] = vec;
+                                }
                             }
                             else if (dataType == "vecint")
                             {
                                 string s = cell.StringCellValue;
-                                s = s.Substring(1, s.Length - 2);
-                                string[] ss = s.Split(",");
-                                (int, int) vec = (Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]));
-                                data[keyRow.GetCell(col).StringCellValue] = vec;
+                                if (string.IsNullOrEmpty(s))
+                                {
+                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                }
+                                else
+                                {
+                                    s = s.Substring(1, s.Length - 2);
+                                    string[] ss = s.Split(",");
+                                    (int, int) vec = (Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]));
+                                    data[keyRow.GetCell(col).StringCellValue] = vec;
+                                }
                             }
                             else if (dataType == "vecintarr")
                             {
                                 string s = cell.StringCellValue;
-                                string[] ss = s.Split(",");
-                                List<(int, int)> values = new List<(int, int)>();
-                                for (int c = 0; c < ss.Length; c += 2)
+                                if (string.IsNullOrEmpty(s))
                                 {
-                                    string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
-                                    string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
-                                    values.Add((Convert.ToInt32(v1), Convert.ToInt32(v2)));
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<(int, int)>();
                                 }
-                                data[keyRow.GetCell(col).StringCellValue] = values;
+                                else
+                                {
+                                    string[] ss = s.Split(",");
+                                    List<(int, int)> values = new List<(int, int)>();
+                                    for (int c = 0; c < ss.Length; c += 2)
+                                    {
+                                        string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
+                                        string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
+                                        values.Add((Convert.ToInt32(v1), Convert.ToInt32(v2)));
+                                    }
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
                             }
                             else if (dataType == "vecarr")
                             {
                                 string s = cell.StringCellValue;
-                                string[] ss = s.Split(",");
-                                List<(float, float)> values = new List<(float, float)>();
-                                for (int c = 0; c < ss.Length; c += 2)
+                                if (string.IsNullOrEmpty(s))
                                 {
-                                    string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
-                                    string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
-                                    values.Add((Convert.ToSingle(v1), Convert.ToSingle(v2)));
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<(float, float)>();
                                 }
-                                data[keyRow.GetCell(col).StringCellValue] = values;
+                                else
+                                {
+                                    string[] ss = s.Split(",");
+                                    List<(float, float)> values = new List<(float, float)>();
+                                    for (int c = 0; c < ss.Length; c += 2)
+                                    {
+                                        string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
+                                        string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
+                                        values.Add((Convert.ToSingle(v1), Convert.ToSingle(v2)));
+                                    }
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
                             }
                         }
                         totalData.Add(data);
