@@ -230,58 +230,58 @@ namespace ExcelToJson
                             else if (dataType == "vec")
                             {
                                 if (cell == null || cell.CellType == CellType.Blank)
-                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector2<float>(0.0f, 0.0f);
                                 else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     string s = cell.StringCellValue;
-                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector2<float>(0.0f, 0.0f); ;
                                 }
                                 else
                                 {
                                     string s = cell.StringCellValue;
                                     s = s.Substring(1, s.Length - 2);
                                     string[] ss = s.Split(",");
-                                    (float, float) vec = (Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]));
+                                    Vector2<float> vec = new Vector2<float>(Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]));
                                     data[keyRow.GetCell(col).StringCellValue] = vec;
                                 }
                             }
                             else if (dataType == "vecint")
                             {
                                 if (cell == null || cell.CellType == CellType.Blank)
-                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector2<int>(0, 0);
                                 else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     string s = cell.StringCellValue;
-                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector2<int>(0, 0);
                                 }
                                 else
                                 {
                                     string s = cell.StringCellValue;
                                     s = s.Substring(1, s.Length - 2);
                                     string[] ss = s.Split(",");
-                                    (int, int) vec = (Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]));
+                                    Vector2<int> vec = new Vector2<int>(Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]));
                                     data[keyRow.GetCell(col).StringCellValue] = vec;
                                 }
                             }
                             else if (dataType == "vecintarr")
                             {
                                 if (cell == null || cell.CellType == CellType.Blank)
-                                    data[keyRow.GetCell(col).StringCellValue] = new List<(int, int)>();
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector2<int>>();
                                 else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     string s = cell.StringCellValue;
-                                    data[keyRow.GetCell(col).StringCellValue] = new List<(int, int)>();
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector2<int>>();
                                 }
                                 else
                                 {
                                     string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
-                                    List<(int, int)> values = new List<(int, int)>();
+                                    List<Vector2<int>> values = new List<Vector2<int>>();
                                     for (int c = 0; c < ss.Length; c += 2)
                                     {
                                         string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
                                         string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
-                                        values.Add((Convert.ToInt32(v1), Convert.ToInt32(v2)));
+                                        values.Add(new Vector2<int>(Convert.ToInt32(v1), Convert.ToInt32(v2)));
                                     }
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
@@ -289,22 +289,22 @@ namespace ExcelToJson
                             else if (dataType == "vecarr")
                             {
                                 if (cell == null || cell.CellType == CellType.Blank)
-                                    data[keyRow.GetCell(col).StringCellValue] = new List<(float, float)>();
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector2<float>>();
                                 else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     string s = cell.StringCellValue;
-                                    data[keyRow.GetCell(col).StringCellValue] = new List<(float, float)>();
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector2<float>>();
                                 }
                                 else
                                 {
                                     string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
-                                    List<(float, float)> values = new List<(float, float)>();
+                                    List<Vector2<float>> values = new List<Vector2<float>>();
                                     for (int c = 0; c < ss.Length; c += 2)
                                     {
                                         string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
                                         string v2 = ss[c + 1][..ss[c + 1].IndexOf(")")];
-                                        values.Add((Convert.ToSingle(v1), Convert.ToSingle(v2)));
+                                        values.Add(new Vector2<float>(Convert.ToSingle(v1), Convert.ToSingle(v2)));
                                     }
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
