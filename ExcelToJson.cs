@@ -169,19 +169,17 @@ namespace ExcelToJson
                                 continue;
                             string dataType = dataTypeRow.GetCell(col).StringCellValue;
                             ICell cell = dataRow.GetCell(col);
-                            if (cell == null)
-                                continue;
                             if (dataType == "int")
-                                data[keyRow.GetCell(col).StringCellValue] = Convert.ToInt32(cell.NumericCellValue);
+                                data[keyRow.GetCell(col).StringCellValue] = cell == null ? 0 : Convert.ToInt32(cell.NumericCellValue);
                             else if (dataType == "float")
-                                data[keyRow.GetCell(col).StringCellValue] = cell.NumericCellValue;
+                                data[keyRow.GetCell(col).StringCellValue] = cell == null ? 0 : cell.NumericCellValue;
                             else if (dataType == "str")
-                                data[keyRow.GetCell(col).StringCellValue] = cell.StringCellValue;
+                                data[keyRow.GetCell(col).StringCellValue] = cell == null ? "" : cell.StringCellValue;
                             else if (dataType == "bool")
-                                data[keyRow.GetCell(col).StringCellValue] = cell.BooleanCellValue;
+                                data[keyRow.GetCell(col).StringCellValue] = cell == null ? false : cell.BooleanCellValue;
                             else if (dataType == "intarr")
                             {
-                                if (cell.CellType == CellType.Blank)
+                                if (cell == null || cell.CellType == CellType.Blank)
                                 {
                                     List<int> values = new List<int>();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
@@ -206,7 +204,7 @@ namespace ExcelToJson
                             }
                             else if (dataType == "floatarr")
                             {
-                                if (cell.CellType == CellType.Blank)
+                                if (cell == null || cell.CellType == CellType.Blank)
                                 {
                                     List<float> values = new List<float>();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
@@ -216,7 +214,7 @@ namespace ExcelToJson
                                     List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
-                                else if(string.IsNullOrEmpty(cell.StringCellValue))
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
@@ -231,13 +229,16 @@ namespace ExcelToJson
                             }
                             else if (dataType == "vec")
                             {
-                                string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
+                                    string s = cell.StringCellValue;
                                     data[keyRow.GetCell(col).StringCellValue] = (0, 0);
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     s = s.Substring(1, s.Length - 2);
                                     string[] ss = s.Split(",");
                                     (float, float) vec = (Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]));
@@ -246,13 +247,16 @@ namespace ExcelToJson
                             }
                             else if (dataType == "vecint")
                             {
-                                string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = (0, 0);
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
+                                    string s = cell.StringCellValue;
                                     data[keyRow.GetCell(col).StringCellValue] = (0, 0);
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     s = s.Substring(1, s.Length - 2);
                                     string[] ss = s.Split(",");
                                     (int, int) vec = (Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]));
@@ -261,13 +265,16 @@ namespace ExcelToJson
                             }
                             else if (dataType == "vecintarr")
                             {
-                                string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<(int, int)>();
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
+                                    string s = cell.StringCellValue;
                                     data[keyRow.GetCell(col).StringCellValue] = new List<(int, int)>();
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
                                     List<(int, int)> values = new List<(int, int)>();
                                     for (int c = 0; c < ss.Length; c += 2)
@@ -281,13 +288,16 @@ namespace ExcelToJson
                             }
                             else if (dataType == "vecarr")
                             {
-                                string s = cell.StringCellValue;
-                                if (string.IsNullOrEmpty(s))
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<(float, float)>();
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
+                                    string s = cell.StringCellValue;
                                     data[keyRow.GetCell(col).StringCellValue] = new List<(float, float)>();
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
                                     List<(float, float)> values = new List<(float, float)>();
                                     for (int c = 0; c < ss.Length; c += 2)
