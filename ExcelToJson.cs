@@ -181,19 +181,24 @@ namespace ExcelToJson
                                 data[keyRow.GetCell(col).StringCellValue] = cell.BooleanCellValue;
                             else if (dataType == "intarr")
                             {
-                                string s = cell.StringCellValue;
                                 if (cell.CellType == CellType.Blank)
                                 {
                                     List<int> values = new List<int>();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
-                                else if (string.IsNullOrEmpty(s))
+                                else if (cell.CellType == CellType.Numeric)
+                                {
+                                    List<int> values = new List<int>() { Convert.ToInt32(cell.NumericCellValue) };
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     List<int> values = new List<int>() { Convert.ToInt32(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
                                     List<int> values = ss.Select(x => Convert.ToInt32(x)).ToList();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
@@ -201,19 +206,24 @@ namespace ExcelToJson
                             }
                             else if (dataType == "floatarr")
                             {
-                                string s = cell.StringCellValue;
                                 if (cell.CellType == CellType.Blank)
                                 {
                                     List<float> values = new List<float>();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
-                                else if(string.IsNullOrEmpty(s))
+                                else if (cell.CellType == CellType.Numeric)
+                                {
+                                    List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                                else if(string.IsNullOrEmpty(cell.StringCellValue))
                                 {
                                     List<float> values = new List<float>() { Convert.ToSingle(cell.NumericCellValue) };
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
                                 else
                                 {
+                                    string s = cell.StringCellValue;
                                     string[] ss = s.Split(",");
                                     List<float> values = ss.Select(x => Convert.ToSingle(x)).ToList();
                                     data[keyRow.GetCell(col).StringCellValue] = values;
