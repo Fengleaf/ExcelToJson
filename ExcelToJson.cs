@@ -309,6 +309,90 @@ namespace ExcelToJson
                                     data[keyRow.GetCell(col).StringCellValue] = values;
                                 }
                             }
+                            else if (dataType == "vec3")
+                            {
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector3<float>(0.0f, 0.0f, 0.0f);
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
+                                {
+                                    string s = cell.StringCellValue;
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector3<float>(0.0f, 0.0f, 0.0f);
+                                }
+                                else
+                                {
+                                    string s = cell.StringCellValue;
+                                    s = s.Substring(1, s.Length - 2);
+                                    string[] ss = s.Split(",");
+                                    Vector3<float> vec = new Vector3<float>(Convert.ToSingle(ss[0]), Convert.ToSingle(ss[1]), Convert.ToSingle(ss[2]));
+                                    data[keyRow.GetCell(col).StringCellValue] = vec;
+                                }
+                            }
+                            else if (dataType == "vec3int")
+                            {
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector3<int>(0, 0, 0);
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
+                                {
+                                    string s = cell.StringCellValue;
+                                    data[keyRow.GetCell(col).StringCellValue] = new Vector3<int>(0, 0, 0);
+                                }
+                                else
+                                {
+                                    string s = cell.StringCellValue;
+                                    s = s.Substring(1, s.Length - 2);
+                                    string[] ss = s.Split(",");
+                                    Vector3<int> vec = new Vector3<int>(Convert.ToInt32(ss[0]), Convert.ToInt32(ss[1]), Convert.ToInt32(ss[2]));
+                                    data[keyRow.GetCell(col).StringCellValue] = vec;
+                                }
+                            }
+                            else if (dataType == "vec3intarr")
+                            {
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector3<int>>();
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
+                                {
+                                    string s = cell.StringCellValue;
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector3<int>>();
+                                }
+                                else
+                                {
+                                    string s = cell.StringCellValue;
+                                    string[] ss = s.Split(",");
+                                    List<Vector3<int>> values = new List<Vector3<int>>();
+                                    for (int c = 0; c < ss.Length; c += 3)
+                                    {
+                                        string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
+                                        string v2 = ss[c + 1];
+                                        string v3 = ss[c + 2][..ss[c + 2].IndexOf(")")];
+                                        values.Add(new Vector3<int>(Convert.ToInt32(v1), Convert.ToInt32(v2), Convert.ToInt32(v3)));
+                                    }
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                            }
+                            else if (dataType == "vec3arr")
+                            {
+                                if (cell == null || cell.CellType == CellType.Blank)
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector3<float>>();
+                                else if (string.IsNullOrEmpty(cell.StringCellValue))
+                                {
+                                    string s = cell.StringCellValue;
+                                    data[keyRow.GetCell(col).StringCellValue] = new List<Vector3<float>>();
+                                }
+                                else
+                                {
+                                    string s = cell.StringCellValue;
+                                    string[] ss = s.Split(",");
+                                    List<Vector3<float>> values = new List<Vector3<float>>();
+                                    for (int c = 0; c < ss.Length; c += 3)
+                                    {
+                                        string v1 = ss[c][(ss[c].IndexOf("(") + 1)..];
+                                        string v2 = ss[c + 1];
+                                        string v3 = ss[c + 2][..ss[c + 2].IndexOf(")")];
+                                        values.Add(new Vector3<float>(Convert.ToSingle(v1), Convert.ToSingle(v2), Convert.ToSingle(v3)));
+                                    }
+                                    data[keyRow.GetCell(col).StringCellValue] = values;
+                                }
+                            }
                         }
                         totalData.Add(data);
                     }
